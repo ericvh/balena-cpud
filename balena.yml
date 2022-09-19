@@ -15,7 +15,7 @@ assets:
   logo:
     type: blob.asset
     data:
-      url: https://avatars.githubusercontent.com/u/13317538?s=200&v=4
+      url: 'https://avatars.githubusercontent.com/u/13317538'
 data:
   supportedDeviceTypes:
     - generic-x86-64-ext
