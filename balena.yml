@@ -1,0 +1,23 @@
+name: balena-cpud
+type: sw.application
+joinable: false
+description: >-
+  The cpu command lets you log in from a local system to a remote system and see some or all of the files (how much is up to you) from the local system.
+post-provisioning: >-
+  ## Usage instructions
+
+  Allow a few minutes for your device to download the app. You need to provision public key for ssh login via fleet variables.
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/ericvh/balena-cpud/'
+  logo:
+    type: blob.asset
+    data:
+      url: https://avatars.githubusercontent.com/u/13317538?s=200&v=4
+data:
+  supportedDeviceTypes:
+    - generic-x86-64-ext
+    - generic-aarch64
+version: 1.0.0

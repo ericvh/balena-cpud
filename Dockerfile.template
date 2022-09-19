@@ -1,0 +1,28 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-golang:1.18-bullseye-build as build
+
+RUN mkdir -p /app
+WORKDIR /app
+
+RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/cpu/cmds/cpud@latest
+RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/cpu/cmds/cpu@latest
+RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/u-root/cmds/core/date@latest
+RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/u-root/cmds/core/cat@latest
+RUN mkdir -p root
+RUN mkdir -p lib64
+
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:bullseye-run
+
+WORKDIR /go/src/github.com/balena-cpud
+
+ADD start.sh /bin/start.sh
+RUN chmod ugo+x /bin/start.sh
+COPY --from=build /app/cpud /bin/cpud
+COPY --from=build /app/cpu /bin/cpu
+COPY --from=build /app/date /bin
+COPY --from=build /app/cat /bin
+COPY --from=build /app/lib64 /lib64
+COPY --from=build /app/root /root
+
+EXPOSE 17010
+
+CMD [ "/bin/start.sh" ]

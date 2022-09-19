@@ -1,0 +1,7 @@
+version: "2"
+
+services:
+  balena-cpud:
+    build: .
+    ports:
+      - "17010:17010"
