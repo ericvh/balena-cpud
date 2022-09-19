@@ -18,6 +18,13 @@ assets:
       url: 'https://avatars.githubusercontent.com/u/13317538'
 data:
   supportedDeviceTypes:
-    - generic-x86-64-ext
+    - genericx86-64-ext
+    - generic-amd64
     - generic-aarch64
-version: 1.0.0
+    - raspberrypi4-64
+    - nanopc-t4
+    - jetson-nano
+    - jetson-xavier
+    - qemux86-64
+
+version: 1.0.1
