@@ -5,3 +5,6 @@ services:
     build: .
     ports:
       - "17010:17010"
+      - "5353:5353/udp"
+    privileged: true
+    network_mode: "host"
