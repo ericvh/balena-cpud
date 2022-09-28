@@ -25,6 +25,8 @@ data:
     - nanopc-t4
     - jetson-nano
     - jetson-xavier
+    - jetson-xavier-nx-devkit
+    - jetson-xavier-nx-devkit-emmc
     - qemux86-64
 
 version: 1.0.1
