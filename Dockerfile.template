@@ -2,9 +2,13 @@ FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-golang:1.18-bullseye-build as buil
 
 RUN mkdir -p /app
 WORKDIR /app
-
-RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/cpu/cmds/cpud@latest
-RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/cpu/cmds/cpu@latest
+RUN git clone -b dynamic-dns-sd https://github.com/ericvh/cpu.git
+WORKDIR /app/cpu
+RUN CGO_ENABLED=0 go build -o ../cpud ./cmds/cpud/.
+RUN CGO_ENABLED=0 go build -o ../cpu ./cmds/cpu/.
+RUN CGO_ENABLED=0 go build -o ../dcpu ./cmds/dcpu/.
+RUN CGO_ENABLED=0 go build -o ../dcpud ./cmds/dcpud/.
+WORKDIR /app
 RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/u-root/cmds/core/date@latest
 RUN CGO_ENABLED=0 GOBIN=`pwd` go install github.com/u-root/u-root/cmds/core/cat@latest
 RUN mkdir -p root
@@ -18,6 +22,8 @@ ADD start.sh /bin/start.sh
 RUN chmod ugo+x /bin/start.sh
 COPY --from=build /app/cpud /bin/cpud
 COPY --from=build /app/cpu /bin/cpu
+COPY --from=build /app/dcpud /bin/dcpud
+COPY --from=build /app/dcpu /bin/dcpu
 COPY --from=build /app/date /bin
 COPY --from=build /app/cat /bin
 COPY --from=build /app/lib64 /lib64
